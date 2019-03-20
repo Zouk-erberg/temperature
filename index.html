@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+	
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+	
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  
+
+	
+	
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	
+	
+	</head>
+	<body  >	
+		<div class="img container-fluid">
+	
+
+		<section class= "container" id="section1">
+			<h1>temps actuel à : <span id="City"></span></h1>
+			<p id="now"></p>
+		</section>
+
+		<section class= "container" id="section2" >
+						
+						<div style="text-align: center"><img id="wicon" src="" alt="Weather icon"></div>
+						<div style="text-align: center; padding-bottom: 20px">Température : <span id="temperature"></span>°C <b>|</b> Temps : <span id="temps"></span> <b>|</b>  Taux d'humidité : <span id="humidity"></span> % <b>| </b> Vitesse du vent : <span id="wind"></span> km/h <b>|</b>  Densité des nuages : <span id="cloud"></span></div>
+		</section>		
+<div class="container"id="form">
+		<div  class="form-inline">
+				<div class="form-group mx-sm-3 mb-2">
+					<input type="text" class="form-control" id="searchcity" placeholder="Entrez une ville" value="">
+				</div>
+				<button type="button" class="btn btn-outline-success mb-2" onclick="getText()">Rechercher</button>
+			</div>
+
+	</div>
+		<section class="container" id="section3"><h4>Prévisions pour les 5 prochains jours :</h4></section>
+            
+      <section class="container" >
+		<table id="example" class="table table-striped table-bordered" style="width:100%;background:#fff; text-align: center;">
+			<thead>
+				<tr  style="background-color:	#e6f0ff">
+										<th>Date et heure</th>
+										<th>Temps</th>
+										<th>Température (°C)</th>
+										<th>Taux d'humidité (%)</th>
+                    <th>Vitesse du vent (Km/h)</th>
+										<th>Densité des nuages</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr style="background-color:	#e6f0ff">
+                    <th>Date et heure</th>
+										<th>Temps</th>
+										<th>Température (°C)</th>
+										<th>Taux d'humidité (%)</th>
+                    <th>Vitesse du vent (Km/h)</th>
+										<th>Densité des nuages</th>
+				</tr>
+			</tfoot>
+		</table>
+	</section>
+	<footer>
+			<p>&copy;  Abd elkader & Abd elAmine| all rights reserved 2019</p>
+	</footer>
+</div>
+		
+		
+		
+		
+		<script>
+		$(document).ready(function() {
+
+
+			if (navigator.geolocation)
+{
+    navigator.geolocation.getCurrentPosition(function(position)
+    {
+        var lat=position.coords.latitude;
+		var Long=position.coords.longitude;
+
+		$('#example').DataTable({
+
+			"language": {
+    						"sProcessing":     "Traitement en cours...",
+    						"sSearch":         "Rechercher&nbsp;:",
+    						"sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+    						"sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+    						"sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ment",
+    						"sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+    						"sInfoPostFix":    "",
+    						"sLoadingRecords": "Chargement en cours...",
+    						"sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+    						"sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+    			"oPaginate": {
+        					"sFirst":      "Premier",
+        					"sPrevious":   "Pr&eacute;c&eacute;dent",
+        					"sNext":       "Suivant",
+        					"sLast":       "Dernier"
+    			},
+    			"oAria": {
+        					"sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+        					"sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+    			},
+    			"select": {
+            				"rows": {
+                						_: "%d lignes séléctionnées",
+                						0: "Aucune ligne séléctionnée",
+                						1: "1 ligne séléctionnée"
+            				} 
+    			}
+},
+					
+			"searching": false,
+			"ordering":false,
+							
+
+			"ajax": {
+					"url": "http://api.openweathermap.org/data/2.5/forecast?lat="+ lat +"&lon="+ Long +"&mode=json&appid=4c751f95a60360ae52bee41672463b92&lang=fr&units=metric",
+					"dataSrc": function ( json ) {
+					
+						var wheather=new Array();
+						for ( var i=0; i<40 ; i++ ){
+							wheather[i]=new Array();
+								
+								var date=new Date(json.list[i].dt_txt);
+								var options = {weekday: "long", year: "numeric", month: "long", day: "numeric",hour:"numeric"};
+							
+							wheather[i][0] = date.toLocaleString("fr-FR",options);
+              				wheather[i][1] = json.list[i].weather[0].description;
+                            wheather[i][2] = Math.round(json.list[i].main.temp);
+                            wheather[i][3] = json.list[i].main.humidity;
+
+								var speed = 3.6*(json.list[i].wind.speed);
+
+							wheather[i][4] = Math.round(speed);
+							wheather[i][5] = json.list[i].clouds.all;
+						}
+						
+						return wheather;
+			
+						}
+				}
+			});
+
+
+			$(function test() {
+
+						
+								 $.getJSON( "http://api.openweathermap.org/data/2.5/weather?lat="+ lat +"&lon="+ Long +"&mode=json&appid=4c751f95a60360ae52bee41672463b92&lang=fr&units=metric", function( data ) {
+										$("#temperature").html(data.main.temp);
+										$("#temps").html(data.weather[0].description);
+										$("#humidity").html(data.main.humidity);
+										$("#wind").html(Math.round(3.6*(data.wind.speed)));
+										$("#cloud").html(data.clouds.all);
+										$("#City").html(data.name);
+
+										var iconCode = data.weather[0].icon;
+                    					var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                  						$('#wicon').attr('src', iconurl);
+								});
+						});
+
+    		});
+}
+else
+{
+		alert("Votre navigateur ne prend pas en compte la géolocalisation HTML5");
+		$('#example').DataTable({
+					
+					"searching": false,
+					"ordering":false,
+							
+
+				"ajax": {
+					"url": "http://api.openweathermap.org/data/2.5/forecast?q=Paris&mode=json&appid=4c751f95a60360ae52bee41672463b92&lang=fr&units=metric",
+					"dataSrc": function ( json ) {
+					
+						var wheather=new Array();
+						for ( var i=0; i<40 ; i++ ){
+							wheather[i]=new Array();
+								
+								var date=new Date(json.list[i].dt_txt);
+								var options = {weekday: "long", year: "numeric", month: "long", day: "numeric",hour:"numeric"};
+							
+							wheather[i][0] =  date.toLocaleString("fr-FR",options);
+              				wheather[i][1] = json.list[i].weather[0].description;
+                            wheather[i][2] = Math.round(json.list[i].main.temp);
+                            wheather[i][3] = json.list[i].main.humidity;
+
+								var speed = 3.6*(json.list[i].wind.speed);
+							wheather[i][4] = Math.round(speed);
+							wheather[i][5] = json.list[i].clouds.all;
+						}
+						  return wheather;
+			
+						}
+				}
+			});
+
+
+			$(function test() {
+
+						
+								 $.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Paris&mode=json&appid=4c751f95a60360ae52bee41672463b92&lang=fr&units=metric", function( data ) {
+										$("#temperature").html(data.main.temp);
+										$("#temps").html(data.weather[0].description);
+										$("#humidity").html(data.main.humidity);
+										$("#wind").html(Math.round(3.6*(data.wind.speed)));
+										$("#cloud").html(data.clouds.all);
+										$("#City").html(data.name);
+										var iconCode = data.weather[0].icon;
+                    					var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                  						$('#wicon').attr('src', iconurl);
+								});
+						});
+}
+
+});
+				</script>
+
+				<script >
+				var myVar = setInterval(date, 1000);
+				function date(){
+					
+					var dateNow=new Date();
+					var options = {weekday: "long", year: "numeric", month: "long", day: "numeric",hour:"numeric", minute:"numeric",second:"numeric"};
+					var dateNow = dateNow.toLocaleString("fr-Fr", options);
+					$("#now").html(dateNow);
+	}	
+			</script>
+
+			<script>
+
+function getText(){
+	
+	var text = document.getElementById("searchcity").value;
+
+	function no_accent (string) {
+
+	var result = string.normalize('NFKD').replace(/[\u0300-\u036F\u1DC0-\u1DFF\u1AB0-\u1AFF]+/g, '');
+	return result;
+	}
+
+	var text= no_accent(text)
+	
+	$.getJSON( "http://api.openweathermap.org/data/2.5/weather?q="+ text +"&mode=json&appid=4c751f95a60360ae52bee41672463b92&lang=fr&units=metric", function( data ) {
+										$("#temperature").html(data.main.temp);
+										$("#temps").html(data.weather[0].description);
+										$("#humidity").html(data.main.humidity);
+										$("#wind").html(Math.round(3.6*(data.wind.speed)));
+										$("#cloud").html(data.clouds.all);
+										$("#City").html(data.name);
+										var iconCode = data.weather[0].icon;
+                    var iconurl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+                  	$('#wicon').attr('src', iconurl);
+								});
+	
+	$('#example').DataTable().ajax.url( "http://api.openweathermap.org/data/2.5/forecast?q="+ text +"&mode=json&appid=4c751f95a60360ae52bee41672463b92&lang=fr&units=metric").load();
+ }
+			
+			</script>
+
+			<script>
+			
+				var ville=new Array();
+
+				$.getJSON('Ville.json',function(data){
+
+					for(var i=0; i<data.length; i++){
+
+						ville.push(data[i].name);
+						
+					}
+					});
+				
+				$(function() {
+				$( "#searchcity" ).autocomplete({
+					
+				  source:  function( request, response ) {
+          var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+          response( $.grep( ville, function( item ){
+              return matcher.test( item );
+          }) );
+      }
+				});
+				});
+			  
+			  </script>
+				
+	</body>
+</html>

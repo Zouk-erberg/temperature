@@ -1,0 +1,74 @@
+
+body
+{
+    font-family: "fjalla one",sans-serif;
+}
+.img
+{
+    background-image: url('https://res.cloudinary.com/dwhf5jypv/image/upload/bo_0px_solid_rgb:000,o_9/v1552293991/sky.jpg');
+    background-size: cover;
+}
+
+#section1
+{
+    height: 150px;
+     text-align: center
+}
+
+#section1 h1 
+{
+    padding-top:30px;
+    text-transform: uppercase;
+    font-family: "Quicksand", sans-serif;
+}
+
+#section3 h4
+{
+padding-top: 20px;
+font-family: "Quicksand", sans-serif;
+font-size: 30px;
+}
+
+#section3
+{
+    height: 100px; 
+    text-align: center;
+}
+
+#section2
+{
+    border: 1px solid#cccccc;
+    width: 800px;
+    margin: 30px auto; 
+    border-radius : 5px; 
+    background: rgba(255, 255, 255,0.8);
+    
+    -moz-box-shadow: 15px 15px 15px 0px #cccccc;
+    -webkit-box-shadow: 15px 15px 30px 0px #cccccc;
+    -o-box-shadow: 15px 15px 30px 0px #cccccc;
+    box-shadow: 15px 15px 30px 0px #cccccc;
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#cccccc, Direction=134, Strength=20);
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    
+}
+
+#section2 span
+{
+    color: #00b33c;
+}
+
+#now
+{
+    font-size: 20px;
+}
+
+
+
+
+footer
+{
+    padding-top: 40px;
+    text-align: center;
+    height: 100px;
+}
